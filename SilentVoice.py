@@ -5,7 +5,7 @@ import tensorflow as tf
 from cvzone.HandTrackingModule import HandDetector
 
 # Load TFLite model
-interpreter = tf.lite.Interpreter(model_path="model_unquant.tflite")  # <- Update with your path
+interpreter = tf.lite.Interpreter(model_path="model/model_unquant.tflite")  # <- Update with your path
 interpreter.allocate_tensors()
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
