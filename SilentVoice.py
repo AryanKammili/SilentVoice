@@ -80,9 +80,31 @@ while True:
                     cv2.FONT_HERSHEY_COMPLEX, 2, (0, 0, 0), 2)
         cv2.rectangle(imgOutput, (x - offset, y - offset),
                       (x + w + offset, y + h + offset), (0, 255, 0), 4)
+        
+        # -- Inside your while loop, replace cv2.imshow(...) with this block:
+        border_thickness = 20
+        border_color = (255, 255, 255)  # White
+        background_color = (71, 62,49)  # Blue (BGR)
 
-        cv2.imshow('ImageCrop', imgCrop)
-        cv2.imshow('ImageWhite', imgWhite)
+        # Add border to the image
+        imgBordered = cv2.copyMakeBorder(
+            imgOutput,
+            border_thickness,
+            border_thickness,
+            border_thickness,
+            border_thickness,
+            cv2.BORDER_CONSTANT,
+            value=border_color
+        )
 
-    cv2.imshow('Image', imgOutput)
+        # Create background
+        bh, bw = imgBordered.shape[:2]
+        background = np.full((bh + 100, bw + 100, 3), background_color, dtype=np.uint8)
+
+        # Center the bordered image on the background
+        x_offset = (background.shape[1] - bw) // 2
+        y_offset = (background.shape[0] - bh) // 2
+        background[y_offset:y_offset + bh, x_offset:x_offset + bw] = imgBordered
+
+        cv2.imshow('Styled Webcam Feed', background)
     cv2.waitKey(1)
